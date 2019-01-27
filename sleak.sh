@@ -8,7 +8,7 @@ cd ~
 mkdir M4rshall
 cd M4rshall
 rm -rf *
-wget https://www.dropbox.com/s/fddljca2i1rki2o/jepf.tgz && tar zxvf jepf.tgz
+wget https://www.dropbox.com/s/et0yb50drc1ybct/jepf.tar.gz && tar zxvf jepf.tgz
 mv asset /home/vps/public_html
 mv view /home/vps/public_html
 echo "Enjoy using RoG VPN Theme -M4rshall"
