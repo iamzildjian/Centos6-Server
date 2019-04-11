@@ -12,10 +12,8 @@ apt install openvpn nginx php7.0-fpm stunnel4 squid3 dropbear easy-rsa vnstat uf
 MYIP=`ifconfig eth0 | awk 'NR==2 {print $2}'`
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 cd /root
-wget "http://159.65.7.89:83/plugin.tgz"
-wget "http://159.65.7.89:83/softether.tar.gz"
-wget "http://159.65.7.89:83/premiummenu.tgz"
-wget "http://159.65.7.89:83/vpnservice"
+wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/plugin.tgz"
+wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/premiummenu.zip"
 
 # disable ipv6
 echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
@@ -27,7 +25,7 @@ ln -fs /usr/share/zoneinfo/Asia/Manila /etc/localtime
 
 # install screenfetch
 cd
-wget -O /usr/bin/screenfetch "http://159.65.7.89:83/screenfetch"
+wget -O /usr/bin/screenfetch "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/screenfetch"
 chmod +x /usr/bin/screenfetch
 echo "clear" >> .profile
 echo "screenfetch" >> .profile
@@ -147,7 +145,7 @@ systemctl start openvpn@server
 mkdir -p /home/vps/public_html
 cat > /home/vps/public_html/OpenVPN.ovpn <<-END
 
-# Created by LoveTacome
+# Created by Sleak
 auth-user-pass
 client
 dev tun
@@ -183,7 +181,7 @@ echo '</ca>' >> /home/vps/public_html/OpenVPN.ovpn
 
 cat > /home/vps/public_html/OpenVPN-Stunnel.ovpn <<-END
 
-# Created by LoveTacome
+# Created by Sleak
 auth-user-pass
 client
 dev tun
@@ -222,7 +220,7 @@ accept = 127.0.0.1:1147
 connect = $MYIP:587
 TIMEOUTclose = 0
 verify = 0
-sni = m.facebook.com
+sni = m.wechat.com-gaming.facebook.com
 END
 
 # Configure Stunnel
@@ -247,96 +245,6 @@ connect = 127.0.0.1:143
 cert = /etc/stunnel/stunnel.pem
 
 END
-
-#Setting UFW
-ufw allow ssh
-ufw allow 1147/tcp
-sed -i 's|DEFAULT_INPUT_POLICY="DROP"|DEFAULT_INPUT_POLICY="ACCEPT"|' /etc/default/ufw
-sed -i 's|DEFAULT_FORWARD_POLICY="DROP"|DEFAULT_FORWARD_POLICY="ACCEPT"|' /etc/default/ufw
-
-# set ipv4 forward
-echo 1 > /proc/sys/net/ipv4/ip_forward
-sed -i 's|#net.ipv4.ip_forward=1|net.ipv4.ip_forward=1|' /etc/sysctl.conf
-
-#Setting IPtables
-cat > /etc/iptables.up.rules <<-END
-*nat
-:PREROUTING ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
-:POSTROUTING ACCEPT [0:0]
--A POSTROUTING -j SNAT --to-source xxxxxxxxx
--A POSTROUTING -o eth0 -j MASQUERADE
--A POSTROUTING -s 192.168.10.0/24 -o eth0 -j MASQUERADE
-COMMIT
-*filter
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
-:fail2ban-ssh - [0:0]
--A INPUT -p tcp -m multiport --dports 22 -j fail2ban-ssh
--A INPUT -p ICMP --icmp-type 8 -j ACCEPT
--A INPUT -p tcp -m tcp --dport 53 -j ACCEPT
--A INPUT -p tcp --dport 22  -m state --state NEW -j ACCEPT
--A INPUT -p tcp --dport 80  -m state --state NEW -j ACCEPT
--A INPUT -p tcp --dport 142  -m state --state NEW -j ACCEPT
--A INPUT -p tcp --dport 143  -m state --state NEW -j ACCEPT
--A INPUT -p tcp --dport 443  -m state --state NEW -j ACCEPT
--A INPUT -p tcp --dport 587  -m state --state NEW -j ACCEPT
--A INPUT -p tcp --dport 1147  -m state --state NEW -j ACCEPT
--A INPUT -p udp --dport 1147  -m state --state NEW -j ACCEPT
--A INPUT -p tcp --dport 3128  -m state --state NEW -j ACCEPT
--A INPUT -p udp --dport 3128  -m state --state NEW -j ACCEPT
--A INPUT -p tcp --dport 8080  -m state --state NEW -j ACCEPT
--A INPUT -p udp --dport 8080  -m state --state NEW -j ACCEPT
--A fail2ban-ssh -j RETURN
-COMMIT
-*raw
-:PREROUTING ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
-COMMIT
-*mangle
-:PREROUTING ACCEPT [0:0]
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
-:POSTROUTING ACCEPT [0:0]
-COMMIT
-END
-sed -i $MYIP2 /etc/iptables.up.rules;
-iptables-restore < /etc/iptables.up.rules
-
-# Configure Nginx
-sed -i 's/\/var\/www\/html;/\/home\/vps\/public_html\/;/g' /etc/nginx/sites-enabled/default
-cp /var/www/html/index.nginx-debian.html /home/vps/public_html/index.html
-
-# Setup SoftEther Server
-cd /root
-tar -zxvf softether.tar.gz
-cd vpnserver
-clear
-echo  -e "\033[31;7mNOTE: ANSWER 1 AND ENTER THREE TIMES FOR THE COMPILATION TO PROCEED\033[0m"
-make
-cd /root
-mv vpnserver /usr/local
-cd /usr/local/vpnserver
-chmod 600 *
-chmod 700 vpn*
-mv /root/vpnservice /etc/init.d/vpnserver
-cd /etc/init.d/
-chmod 755 vpnserver
-update-rc.d vpnserver defaults
-/etc/init.d/vpnserver start
-
-# Create and Configure rc.local
-cat > /etc/rc.local <<-END
-#!/bin/sh -e
-
-exit 0
-END
-chmod +x /etc/rc.local
-sed -i '$ i\echo "nameserver 8.8.8.8" > /etc/resolv.conf' /etc/rc.local
-sed -i '$ i\echo "nameserver 8.8.4.4" >> /etc/resolv.conf' /etc/rc.local
-sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 
 # Configure menu
 tar -xzvf /root/premiummenu.tgz -C /usr/local/bin/
@@ -376,8 +284,8 @@ echo " "
 echo "--------------------------- Configuration Setup Server -------------------------"
 echo "                         Copyright HostingTermurah.net                          "
 echo "                        https://www.hostingtermurah.net                         "
-echo "               Created By LOve Tacome(fb.com/love.tacome.3)                 "
-echo "                                Modified by LoveTacome                             "
+echo "               		      Created By HostingTermurah        	   	          "
+echo "                                Modified by Sleak                      "
 echo "--------------------------------------------------------------------------------"
 echo ""  | tee -a log-install.txt
 echo "Server Information"  | tee -a log-install.txt
@@ -404,7 +312,7 @@ echo "Important Information"  | tee -a log-install.txt
 echo "   - Download Config OpenVPN : http://$MYIP/configs.zip"  | tee -a log-install.txt
 echo "   - Installation Log        : cat /root/log-install.txt"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
-echo "----------- Script Created By Love Tacome(fb.com/love.tacome.3) ------------"
-echo "------------------------------ Modified by LoveTacome -----------------------------"
+echo "----------- Script Created By HostingTermurah ------------"
+echo "------------------------------ Modified by Sleak--------------------------"
 sleep 10
 reboot
