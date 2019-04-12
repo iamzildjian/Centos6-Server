@@ -13,7 +13,7 @@ MYIP=`ifconfig eth0 | awk 'NR==2 {print $2}'`
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 cd /root
 wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/plugin.tgz"
-wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/premiummenu.tar.gz"
+wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/premiummenu.zip"
 
 # disable ipv6
 echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
@@ -22,6 +22,13 @@ echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
 # set time GMT +8
 ln -fs /usr/share/zoneinfo/Asia/Manila /etc/localtime
 
+# install webmin
+cd
+wget "https://raw.githubusercontent.com/wangzki03/premscript/master/webmin_1.801_all.deb"
+dpkg --install webmin_1.801_all.deb;
+apt-get -y -f install;
+sed -i 's/ssl=1/ssl=0/g' /etc/webmin/miniserv.conf
+rm /root/webmin_1.801_all.deb
 
 # install screenfetch
 cd
@@ -67,6 +74,12 @@ refresh_pattern . 0 20% 4320
 visible_hostname LoveTacome
 END
 sed -i $MYIP2 /etc/squid/squid.conf;
+
+# setting banner
+rm /etc/issue.net
+wget -O /etc/issue.net "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/issue.net"
+sed -i 's@#Banner@Banner@g' /etc/ssh/sshd_config
+sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
 #install OpenVPN
 cp -r /usr/share/easy-rsa/ /etc/openvpn
@@ -145,7 +158,7 @@ systemctl start openvpn@server
 mkdir -p /home/vps/public_html
 cat > /home/vps/public_html/OpenVPN.ovpn <<-END
 
-# Created by LoveTacome
+# Created by Sleak
 auth-user-pass
 client
 dev tun
@@ -181,7 +194,7 @@ echo '</ca>' >> /home/vps/public_html/OpenVPN.ovpn
 
 cat > /home/vps/public_html/OpenVPN-Stunnel.ovpn <<-END
 
-# Created by LoveTacome
+# Created by Sleak
 auth-user-pass
 client
 dev tun
@@ -319,7 +332,10 @@ sed -i '$ i\echo "nameserver 8.8.4.4" >> /etc/resolv.conf' /etc/rc.local
 sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 
 # Configure menu
-tar -xzvf /root/premiummenu.tar.gz -C /usr/local/bin/
+apt-get install unzip
+cd /usr/local/bin/
+wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/premiummenu.zip" 
+unzip premiummenu.zip
 chmod +x /usr/local/bin/*
 
 # add eth0 to vnstat
@@ -338,9 +354,11 @@ service php7.0-fpm start
 service vnstat restart
 service openvpn restart
 service dropbear restart
+service ssh restart
 service fail2ban restart
 service squid restart
 service vpnserver restart
+service webmin restart
 
 #clearing history
 history -c
@@ -356,8 +374,7 @@ echo " "
 echo "--------------------------- Configuration Setup Server -------------------------"
 echo "                         Copyright HostingTermurah.net                          "
 echo "                        https://www.hostingtermurah.net                         "
-echo "               Created By LOve Tacome(fb.com/love.tacome.3)                 "
-echo "                                Modified by LoveTacome                             "
+echo "                                Modified by Sleak                               "
 echo "--------------------------------------------------------------------------------"
 echo ""  | tee -a log-install.txt
 echo "Server Information"  | tee -a log-install.txt
@@ -384,7 +401,6 @@ echo "Important Information"  | tee -a log-install.txt
 echo "   - Download Config OpenVPN : http://$MYIP/configs.zip"  | tee -a log-install.txt
 echo "   - Installation Log        : cat /root/log-install.txt"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
-echo "----------- Script Created By Love Tacome(fb.com/love.tacome.3) ------------"
-echo "------------------------------ Modified by LoveTacome -----------------------------"
+echo "------------------------------ Sleak -----------------------------"
 sleep 10
 reboot
