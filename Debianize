@@ -13,7 +13,7 @@ MYIP=`ifconfig eth0 | awk 'NR==2 {print $2}'`
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 cd /root
 wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/plugin.tgz"
-wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/premiummenu.zip"
+wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/premmenu.zip"
 
 # disable ipv6
 echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
@@ -334,7 +334,7 @@ sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 # Configure menu
 apt-get install unzip
 cd /usr/local/bin/
-wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/premiummenu.zip" 
+wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/premmenu.zip" 
 unzip premiummenu.zip
 chmod +x /usr/local/bin/*
 
