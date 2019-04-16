@@ -412,7 +412,7 @@ sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 apt-get install unzip
 cd /usr/local/bin/
 wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/premmenu.zip" 
-unzip premiummenu.zip
+unzip premmenu.zip
 chmod +x /usr/local/bin/*
 
 # add eth0 to vnstat
