@@ -76,15 +76,15 @@ chmod -R 755 /var/lib/mysql/
 
 
 #Setting UP Nginx and PHP
-apt-get -y install nginx php-fpm php-cli php-mysql php-mcrypt
+apt-get -y install nginx php7.3 php7.3-fpm php7.3-cli php7.3-mysql php7.3-mcrypt
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.backup 
 mv /etc/nginx/conf.d/vps.conf /etc/nginx/conf.d/vps.conf.backup 
 wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/Files/Panel/nginx.conf" 
 wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/johndesu090/AutoScriptDebianStretch/master/Files/Panel/vps.conf" 
-echo "cgi.fix_pathinfo=0" >> /etc/php/7.0/fpm/php.ini 
-sed -i 's/listen = \/run\/php\/php7.0-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php/7.0/fpm/pool.d/www.conf
+echo "cgi.fix_pathinfo=0" >> /etc/php/7.3/fpm/php.ini 
+sed -i 's/listen = \/run\/php\/php7.0-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php/7.3/fpm/pool.d/www.conf
 
 useradd -m vps
 mkdir -p /home/vps/public_html
