@@ -8,7 +8,7 @@ cd ~
 mkdir Sleak
 cd Sleak
 rm -rf *
-wget https://www.dropbox.com/s/65fsp3zh18imqyc/pinoysleak.tgz && tar zxvf pinoysleak.tgz
+wget https://www.dropbox.com/s/ozygfv7jetc0kfu/sleak.tgz && tar zxvf sleak.tgz
 mv asset /home/vps/public_html
 mv view /home/vps/public_html
 echo "Enjoy using Pinoy Sleak Theme -Sleak"
