@@ -6,6 +6,8 @@
 <img src="https://img.shields.io/badge/Centos6-Panel-brightgreen.svg">
 </a></p>
 
+#OCS PANEL AND VPS AUTOSCRIPT
+
 Server
 
 ```
