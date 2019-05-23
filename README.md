@@ -1,5 +1,3 @@
-<center><p><img src="https://i.imgur.com/SRVw5S7.png">
-<img src="https://www.razoyo.com/wp-content/uploads/2018/12/ssh-300x110.jpg"></p></center>
 
 <p><a href="https://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/centos6panelx.sh">
 <img src="https://img.shields.io/badge/Centos6-Server-blue.svg">
