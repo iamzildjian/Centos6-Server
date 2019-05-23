@@ -50,10 +50,10 @@ rpm -Uvh epel-release-6-8.noarch.rpm
 rpm -Uvh remi-release-6.rpm
 
 if [ "$OS" == "x86_64" ]; then
-  wget https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
+  wget https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
   rpm -Uvh rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
 else
-  wget https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/rpmforge-release-0.5.3-1.el6.rf.i686.rpm
+  wget https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/rpmforge-release-0.5.3-1.el6.rf.i686.rpm
   rpm -Uvh rpmforge-release-0.5.3-1.el6.rf.i686.rpm
 fi
 
@@ -96,7 +96,7 @@ chkconfig vnstat on
 
 # install screenfetch
 cd
-wget -O /usr/bin/screenfetch "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/screenfetch"
+wget -O /usr/bin/screenfetch "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/screenfetch"
 chmod +x /usr/bin/screenfetch
 echo "clear" >> .bash_profile
 echo "screenfetch" >> .bash_profile
@@ -181,14 +181,14 @@ service php-fpm restart
 service nginx restart
 
 # install openvpn
-wget -O /etc/openvpn/openvpn.tar "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/centos6/openvpn-debian.tar"
+wget -O /etc/openvpn/openvpn.tar "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/centos6/openvpn-debian.tar"
 cd /etc/openvpn/
 tar xf openvpn.tar
-wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/centos6/1194-centos.conf"
+wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/centos6/1194-centos.conf"
 if [ "$OS" == "x86_64" ]; then
-  wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/centos6/1194-centos64.conf"
+  wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/centos6/1194-centos64.conf"
 fi
-wget -O /etc/iptables.up.rules "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/centos6/iptables.up.rules"
+wget -O /etc/iptables.up.rules "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/centos6/iptables.up.rules"
 sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.d/rc.local
 MYIP=`dig +short myip.opendns.com @resolver1.opendns.com`;
@@ -204,7 +204,7 @@ cd
 
 # configure openvpn client config
 cd /etc/openvpn/
-wget -O /etc/openvpn/1194-client.ovpn "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/centos6/open-vpn.conf"
+wget -O /etc/openvpn/1194-client.ovpn "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/centos6/open-vpn.conf"
 sed -i $MYIP2 /etc/openvpn/1194-client.ovpn;
 PASS=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1`;
 useradd -M -s /bin/false Sleak
@@ -245,9 +245,9 @@ mkdir /var/lib/premium-script
 chkconfig pptpd on
 
 # install badvpn
-wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/badvpn-udpgw"
+wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/badvpn-udpgw"
 if [ "$OS" == "x86_64" ]; then
-  wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/badvpn-udpgw64"
+  wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/badvpn-udpgw64"
 fi
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.d/rc.local
@@ -256,15 +256,15 @@ screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 
 # install mrtg
 cd /etc/snmp/
-wget -O /etc/snmp/snmpd.conf "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/snmpd.conf"
-wget -O /root/mrtg-mem.sh "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/mrtg-mem.sh"
+wget -O /etc/snmp/snmpd.conf "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/snmpd.conf"
+wget -O /root/mrtg-mem.sh "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/mrtg-mem.sh"
 chmod +x /root/mrtg-mem.sh
 service snmpd restart
 chkconfig snmpd on
 snmpwalk -v 1 -c public localhost | tail
 mkdir -p /home/vps/public_html/mrtg
 cfgmaker --zero-speed 100000000 --global 'WorkDir: /home/vps/public_html/mrtg' --output /etc/mrtg/mrtg.cfg public@localhost
-curl "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/mrtg.conf" >> /etc/mrtg.cfg
+curl "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/mrtg.conf" >> /etc/mrtg.cfg
 sed -i 's/WorkDir: \/var\/www\/mrtg/# WorkDir: \/var\/www\/mrtg/g' /etc/mrtg/mrtg.cfg
 sed -i 's/# Options\[_\]: growright, bits/Options\[_\]: growright/g' /etc/mrtg/mrtg.cfg
 indexmaker --output=/home/vps/public_html/mrtg/index.html /etc/mrtg/mrtg.cfg
@@ -290,7 +290,7 @@ chkconfig dropbear on
 
 # install vnstat gui
 cd /home/vps/public_html/
-wget https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/vnstat_php_frontend-1.5.1.tar.gz
+wget https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/vnstat_php_frontend-1.5.1.tar.gz
 tar xf vnstat_php_frontend-1.5.1.tar.gz
 rm vnstat_php_frontend-1.5.1.tar.gz
 mv vnstat_php_frontend-1.5.1 vnstat
@@ -355,8 +355,8 @@ chkconfig squid on
 
 # install stunnel
 #yum install stunnel
-#wget -O /etc/pki/tls/certs/stunnel.pem "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/updates/stunnel.pem"
-#wget -O /etc/stunnel/stunnel.conf "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/updates/stunnel.conf"
+#wget -O /etc/pki/tls/certs/stunnel.pem "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/updates/stunnel.pem"
+#wget -O /etc/stunnel/stunnel.conf "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/updates/stunnel.conf"
 #mkdir /var/run/stunnel
 #chown nobody:nobody /var/run/stunnel
 #stunnel /etc/stunnel/stunnel.conf
@@ -372,7 +372,7 @@ rm -rf /root/master.zip
 
 # setting banner
 rm /etc/issue.net
-wget -O /etc/issue.net "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/issue.net"
+wget -O /etc/issue.net "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/issue.net"
 sed -i 's@#Banner@Banner@g' /etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 service ssh restart
@@ -425,7 +425,7 @@ yum -y install bmon
 
 # download script
 cd
-wget https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/updates/install-premiumscript.sh -O - -o /dev/null|sh
+wget https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/updates/install-premiumscript.sh -O - -o /dev/null|sh
 
 # cron
 service crond start
