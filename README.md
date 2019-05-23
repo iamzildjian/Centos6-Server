@@ -17,7 +17,7 @@ yum -y update && yum -y install wget && wget https://raw.githubusercontent.com/i
 Panel
 
 ```
-yum -y update && yum -y install wget && wgethttps://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/centos6panelx.sh && chmod +x centos6panelx.sh && ./centos6panelx.sh && rm -f centos6panelx.sh && history -c
+yum -y update && yum -y install wget && wgethttps://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/centos6panel.sh && chmod +x centos6panelx.sh && ./centos6panelx.sh && rm -f centos6panelx.sh && history -c
 ```
 
 Server & Panel
