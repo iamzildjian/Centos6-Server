@@ -21,7 +21,7 @@ cat > /root/limit.sh <<END3
 END3
 
 cd /usr/local/bin
-wget -O premium-script.tar.gz "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/updates/premium-script.tar.gz"
+wget -O premium-script.tar.gz "https://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/updates/premium-script.tar.gz"
 tar -xvf premium-script.tar.gz
 rm -f premium-script.tar.gz
 
