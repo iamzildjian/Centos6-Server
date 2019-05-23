@@ -47,10 +47,10 @@ rpm -Uvh epel-release-6-8.noarch.rpm
 rpm -Uvh remi-release-6.rpm
 
 if [ "$OS" == "x86_64" ]; then
-  wget https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
+  wget https://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
   rpm -Uvh rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
 else
-  wget https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/rpmforge-release-0.5.3-1.el6.rf.i686.rpm
+  wget https://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/rpmforge-release-0.5.3-1.el6.rf.i686.rpm
   rpm -Uvh rpmforge-release-0.5.3-1.el6.rf.i686.rpm
 fi
 
@@ -103,8 +103,8 @@ yum -y install nginx php php-fpm php-cli php-mysql php-mcrypt
 rm -f /usr/share/nginx/html/index.html
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.backup
 mv /etc/nginx/conf.d/vps.conf /etc/nginx/conf.d/vps.conf.backup
-wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/nginx.conf"
-wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/iamzildjian/Centos6-Server/master/vps.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/nginx.conf"
+wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/vps.conf"
 sed -i 's/www-data/nginx/g' /etc/nginx/nginx.conf
 sed -i 's/apache/nginx/g' /etc/php-fpm.d/www.conf
 sed -i 's/cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php.ini
@@ -126,7 +126,7 @@ service nginx restart
 #Install zip shigeno Script
 yum -y install zip unzip
 cd /home/vps/public_html
-wget https://raw.githubusercontent.com/shigeno143/OCSPanelCentos6/master/OCSPanelCentos6.zip
+wget https://www.dropbox.com/s/sgrab0shxfzsf20/OCSPanelCentos6.zip?dl=1
 unzip OCSPanelCentos6.zip
 rm -f OCSPanelCentos6.zip
 chown -R nginx:nginx /home/vps/public_html
