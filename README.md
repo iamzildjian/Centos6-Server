@@ -26,3 +26,6 @@ Server & Panel
 yum -y update && yum -y install wget && wget https://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/centos6serverxpanel.sh && chmod +x centos6serverxpanel.sh && ./centos6serverxpanel.sh && rm -f centos6serverxpanel.sh && history -c
 ```
 
+Theme
+
+```wget https://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/pinoytheme.sh && chmod +x pinoytheme.sh && ./pinoytheme.sh```
