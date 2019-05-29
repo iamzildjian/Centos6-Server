@@ -28,4 +28,6 @@ yum -y update && yum -y install wget && wget https://raw.githubusercontent.com/i
 
 Theme
 
-```wget https://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/pinoytheme.sh && chmod +x pinoytheme.sh && ./pinoytheme.sh```
+```
+wget https://raw.githubusercontent.com/iamzildjian/PanelxServer-Centos6/master/pinoytheme.sh && chmod +x pinoytheme.sh && ./pinoytheme.sh
+```
