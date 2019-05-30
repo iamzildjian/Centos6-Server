@@ -12,8 +12,8 @@ apt install openvpn nginx php7.0-fpm stunnel4 squid3 dropbear easy-rsa vnstat uf
 MYIP=`ifconfig eth0 | awk 'NR==2 {print $2}'`
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 cd /root
-wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/plugin.tgz"
-wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/premmenu.zip"
+wget "https://raw.githubusercontent.com/wangzki03/VPSauto/master/tool/plugin.tgz"
+wget "https://raw.githubusercontent.com/wangzki03/VPSauto/master/tool/premiummenu.zip"
 
 # disable ipv6
 echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
@@ -109,7 +109,7 @@ rm /root/webmin_1.801_all.deb
 
 # install screenfetch
 cd
-wget -O /usr/bin/screenfetch "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/screenfetch"
+wget -O /usr/bin/screenfetch "https://raw.githubusercontent.com/wangzki03/VPSauto/master/tool/screenfetch"
 chmod +x /usr/bin/screenfetch
 echo "clear" >> .profile
 echo "screenfetch" >> .profile
@@ -154,7 +154,7 @@ sed -i $MYIP2 /etc/squid/squid.conf;
 
 # setting banner
 rm /etc/issue.net
-wget -O /etc/issue.net "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/issue.net"
+wget -O /etc/issue.net "https://raw.githubusercontent.com/wangzki03/premscript/master/issue.net"
 sed -i 's@#Banner@Banner@g' /etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
@@ -411,8 +411,8 @@ sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 # Configure menu
 apt-get install unzip
 cd /usr/local/bin/
-wget "https://raw.githubusercontent.com/iamzildjian/OVPN-panel/master/premmenu.zip" 
-unzip premmenu.zip
+wget "https://raw.githubusercontent.com/wangzki03/VPSauto/master/tool/premiummenu.zip"  
+unzip premiummenu.zip
 chmod +x /usr/local/bin/*
 
 # add eth0 to vnstat
